@@ -32,7 +32,7 @@ task_memory = 512
 
 task_cpu = 256
 
-container_name = "confused"
+container_name = "kinda_confused"
 
 container_image = "alpine"
 
