@@ -202,6 +202,60 @@ resource "aws_iam_role_policy_attachment" "codebuild_s3" {
   policy_arn = join("", aws_iam_policy.s3.*.arn)
 }
 
+resource "aws_codecommit_repository" "coderepo" {
+  repository_name = var.codecommit_repo_name
+  description     = "ci/cd steve test"
+  default_branch  = "master"
+}
+
+resource "aws_iam_policy" "codecommit_iam_policy" {
+  name        = "codepipeline_to_codecommit_access"
+  description = "IAM policy for codecommit polling"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "codecommit:ListRepositoriesForApprovalRuleTemplate",
+                "codecommit:CreateApprovalRuleTemplate",
+                "codecommit:UpdateApprovalRuleTemplateName",
+                "codecommit:GetApprovalRuleTemplate",
+                "codecommit:ListApprovalRuleTemplates",
+                "codecommit:DeleteApprovalRuleTemplate",
+                "codecommit:ListRepositories",
+                "codecommit:UpdateApprovalRuleTemplateContent",
+                "codecommit:UpdateApprovalRuleTemplateDescription"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "codecommit:*",
+            "Resource": "arn:aws:codecommit:us-east-2:932516921738:${var.codecommit_repo_name}"
+        }
+    ]
+}
+EOF
+}
+
+
+resource "aws_iam_role_policy_attachment" "codecommit_new" {
+  role       = module.codepipeline_assume_role_label.id
+  policy_arn = "${aws_iam_policy.codecommit_iam_policy.arn}"
+}
+
+resource "aws_iam_user" "codecommit_user" {
+  name = "codecommit_test_user"
+}
+
+resource "aws_iam_user_policy_attachment" "codecommit_user_attach" {
+  user       = "${aws_iam_user.codecommit_user.name}"
+  policy_arn = "${aws_iam_policy.codecommit_iam_policy.arn}"
+}
+
 resource "aws_codepipeline" "default" {
   count    = var.enabled ? 1 : 0
   name     = module.codepipeline_label.id
@@ -225,16 +279,14 @@ resource "aws_codepipeline" "default" {
     action {
       name             = "Source"
       category         = "Source"
-      owner            = "ThirdParty"
-      provider         = "GitHub"
+      owner            = "AWS"
+      provider         = "CodeCommit"
       version          = "1"
       output_artifacts = ["code"]
 
       configuration = {
-        OAuthToken           = var.github_oauth_token
-        Owner                = var.repo_owner
-        Repo                 = var.repo_name
-        Branch               = var.branch
+        RepositoryName       = "${var.codecommit_repo_name}"
+        BranchName           = "master"
         PollForSourceChanges = var.poll_source_changes
       }
     }

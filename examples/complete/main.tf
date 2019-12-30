@@ -107,4 +107,6 @@ module "ecs_codepipeline" {
   environment_variables   = var.environment_variables
   ecs_cluster_name        = aws_ecs_cluster.default.name
   service_name            = module.ecs_alb_service_task.service_name
+  codecommit_repo_name    = var.codecommit_repo_name
 }
+

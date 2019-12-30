@@ -121,3 +121,4 @@ environment_variables = [
 
   }
 ]
+codecommit_repo_name = "test2"

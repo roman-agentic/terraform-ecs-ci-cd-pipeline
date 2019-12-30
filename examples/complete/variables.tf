@@ -235,3 +235,8 @@ variable "s3_bucket_force_destroy" {
   type        = bool
   description = "A boolean that indicates all objects should be deleted from the CodePipeline artifact store S3 bucket so that the bucket can be destroyed without error"
 }
+
+variable "codecommit_repo_name" {
+  type        = string
+  description = "Name of codecommit repo to be created when terraform builds the infrastructure"
+}
