@@ -44,6 +44,10 @@ resource "aws_ecs_cluster" "default" {
   tags = module.label.tags
 }
 
+resource "aws_ecr_repository" "ecr_repo" {
+  name = var.image_repo_name
+}
+
 module "container_definition" {
   source                       = "git::https://github.com/cloudposse/terraform-aws-ecs-container-definition.git?ref=tags/0.21.0"
   container_name               = var.container_name
@@ -69,7 +73,7 @@ module "ecs_alb_service_task" {
   ecs_cluster_arn                    = aws_ecs_cluster.default.arn
   launch_type                        = var.ecs_launch_type
   vpc_id                             = module.vpc.vpc_id
-  security_group_ids                 = [module.vpc.vpc_default_security_group_id]
+  security_group_ids                 = [module.vpc.vpc_default_security_group_id, "${aws_security_group.allow_connections.id}"]
   subnet_ids                         = module.subnets.public_subnet_ids
   tags                               = var.tags
   ignore_changes_task_definition     = var.ignore_changes_task_definition
@@ -108,5 +112,25 @@ module "ecs_codepipeline" {
   ecs_cluster_name        = aws_ecs_cluster.default.name
   service_name            = module.ecs_alb_service_task.service_name
   codecommit_repo_name    = var.codecommit_repo_name
+}
+
+resource "aws_security_group" "allow_connections" {
+  name        = "allow_connections"
+  description = "Allow HTTP/HTTPS inbound traffic"
+  vpc_id      = "${module.vpc.vpc_id}"
+
+  ingress {
+    # TLS 
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 }
 

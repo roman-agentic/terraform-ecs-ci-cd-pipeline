@@ -98,7 +98,7 @@ poll_source_changes = true
 
 privileged_mode = true
 
-image_repo_name = "terraform-aws-ecs-codepipeline"
+image_repo_name = "terraform-aws-ecs-codepipeline2"
 
 image_tag = "latest"
 
