@@ -11,7 +11,7 @@ If the AWS CLI is not configured but it is installed, you can run the command 'a
 
 *Going forward this README assumes you have the AWS CLI configured for the AWS account you wish to launch this infrastructure.*
 
-#Getting started
+# Getting started
 
 **Clone this git repo**  
 Execute the following commands:
@@ -82,7 +82,7 @@ Get these files and then place them in the directory for test2.
 Once this is ready, be sure to do git add, git commit, and then git push origin master in the test2 folder to the test2 codecommit repository.
 
 # Congratulations! 
-#A deployment is underway
+# A deployment is underway
 This should trigger a build and your infrastructure should automatically be deployed. For this test, we have launched an nginx container.
 
 The only thing we need to do now, is very the build has completed.
@@ -136,7 +136,7 @@ Commercial support is available at
 </body>
 </html>
 
-#Clean up   
+# Clean up   
 If you wish to clean this environment up, run the following commands:
 
 > aws iam delete-service-specific-credential --user codecommit\_test\_user --service-specific-credential-id xxxxxxQQO4PHC
