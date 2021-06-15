@@ -16,7 +16,7 @@ If the AWS CLI is not configured but it is installed, you can run the command 'a
 **Clone this git repo**  
 Execute the following commands:
 
->git clone https://github.com/rackman-campbell/terraform-ecs-ci-cd-pipeline.git
+>git clone https://github.com/roman-agentic/terraform-ecs-ci-cd-pipeline.git
 
 **Terraform set up**  
 Execute the following commands:
