@@ -75,7 +75,7 @@ Now cd to a directory of your choosing or stay in the current directory and do a
 
 You will then be prompted for a username, use the value you saved earlier from ServiceUserName. You will then be prompted for a password, use the value from ServicePassword.
 
-I already have a dockerfile and buildspec prepared, so navigate to https://github.com/rackman-campbell/infrastructure-CI-CD
+I already have a dockerfile and buildspec prepared, so navigate to  https://github.com/roman-agentic/terraform-ecs-ci-cd-pipeline
 
 Get these files and then place them in the directory for test2.
 
