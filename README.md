@@ -21,7 +21,7 @@ Execute the following commands:
 **Terraform set up**  
 Execute the following commands:
 >1. cd terraform-ecs-ci-cd-pipeline/examples/complete/  
-2. terraform init
+>2. terraform init
 
 In this directory there is a tfvars file that provides key configuration details to Terraform. Here are a few values I have defaulted:  
 
@@ -75,7 +75,7 @@ Now cd to a directory of your choosing or stay in the current directory and do a
 
 You will then be prompted for a username, use the value you saved earlier from ServiceUserName. You will then be prompted for a password, use the value from ServicePassword.
 
-I already have a dockerfile and buildspec prepared, so navigate to  https://github.com/roman-agentic/terraform-ecs-ci-cd-pipeline
+I already have a dockerfile and buildspec prepared, so navigate to https://github.com/roman-agentic/infrastructure-CI-CD  
 
 Get these files and then place them in the directory for test2.
 
@@ -85,7 +85,7 @@ Once this is ready, be sure to do git add, git commit, and then git push origin 
 # A deployment is underway
 This should trigger a build and your infrastructure should automatically be deployed. For this test, we have launched an nginx container.
 
-The only thing we need to do now, is very the build has completed.
+The only thing we need to do now is verify the build has completed.
 -
 
 **How to view your working nginx task**  
